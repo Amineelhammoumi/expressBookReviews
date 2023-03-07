@@ -1,5 +1,5 @@
 let books = {
-      1: {"author": "Chinua Achebe","title": "Things Fall Apart", "reviews": {} },
+      1: {"author": "Chinua Achebe","title": "Things Fall Apart", "reviews": [{"username" : "user1" , "review" : "good book"} , {"username" : "user2" , "review" : "good read"} ] },
       2: {"author": "Hans Christian Andersen","title": "Fairy tales", "reviews": {} },
       3: {"author": "Dante Alighieri","title": "The Divine Comedy", "reviews": {} },
       4: {"author": "Unknown","title": "The Epic Of Gilgamesh", "reviews": {} },
@@ -12,3 +12,16 @@ let books = {
 }
 
 module.exports=books;
+
+
+
+const books1 = await fetch(books).then(response => response.json());
+
+let titlePromises = [];
+books1.forEach(book => {
+      titlePromises.push(
+       fetch(books.title)
+       .then(response => response.json())
+       .then(title => { return {author: book.author, title : title, reviews : book.reviews}})
+   );
+});
